@@ -17,6 +17,11 @@ export async function onRequest(context) {
   const isMobile = /android|webos|iphone|ipad|ipod|blackberry|iemobile|opera mini/i.test(userAgent);
   const isMobileDevice = isMobile || context.request.cf?.deviceType === "mobile";
 
-  // 3. Desktop users ke liye redirect (Yahan se extra bracket hata diya hai)
+  // 3. Agar mobile device HAI, toh redirect mat karein, agla page (index.html) load hone dein
+  if (isMobileDevice) {
+    return context.next();
+  }
+
+  // 4. Sirf Desktop users (jo mobile nahi hain) unko redirect karein
   return Response.redirect("https://google.com", 302);
 }
